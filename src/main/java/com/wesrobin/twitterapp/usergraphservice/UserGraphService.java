@@ -1,4 +1,4 @@
-package com.wesrobin.twitterapp.fanoutservice.usergraphservice;
+package com.wesrobin.twitterapp.usergraphservice;
 
 import com.wesrobin.twitterapp.data.User;
 import com.wesrobin.twitterapp.data.UserGraph;
@@ -6,8 +6,8 @@ import com.wesrobin.twitterapp.data.UserGraph;
 import java.util.List;
 
 /**
- * Used to interact with the User Graph - just a layer of abstraction that doesn't really do anything here, but could
- * be adapted to perform some dank logic if the graph is not stored in this VM.
+ * Used to interact with the User Graph - just a layer of abstraction that doesn't really do anything here, but could be
+ * adapted to perform some dank logic if the graph is not stored in this VM.
  */
 public class UserGraphService implements IUserGraphService {
     private UserGraph userGraph;

@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private final String userName;  // Used as an ID, so must be unique!
-    private final List<Tweet> feed = new ArrayList<>(); // Each user stores their own feed
+    // Used as an ID, so must be unique!
+    private final String userName;
+    // Each user stores their own feed
+    // Future Wes sez: Wish this was a custom object :( Oh well too late
+    private final List<Tweet> feed = new ArrayList<>();
 
     public User(String userName) {
         this.userName = userName;
@@ -30,8 +33,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(userName, user.userName);
     }

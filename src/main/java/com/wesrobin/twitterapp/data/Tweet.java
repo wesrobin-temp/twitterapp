@@ -23,15 +23,19 @@ public class Tweet {
     @Override
     public String toString() {
         return "Tweet{" +
-                "user=" + user +
+                "user=" + user.getUserName() +
                 ", content='" + content + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Tweet tweet = (Tweet) o;
         return Objects.equals(user, tweet.user) &&
                 Objects.equals(content, tweet.content);

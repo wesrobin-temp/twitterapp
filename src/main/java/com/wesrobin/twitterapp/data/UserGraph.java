@@ -17,8 +17,8 @@ public class UserGraph {
 
         @SuppressWarnings("unchecked")
         // Unfortunately you can't parameterize an array of LinkedLists so gotta do this :(
-        public Graph() {
-            this.adjacencyList = new HashMap<>();
+        public Graph(Map<User, LinkedList<User>> adjacencyList) {
+            this.adjacencyList = adjacencyList;
         }
 
         void addEdge(User src, User dest) {
@@ -45,7 +45,8 @@ public class UserGraph {
                 graphStr.append(user.getUserName());
                 graphStr.append(" -> ");
                 // Comma-separates each user
-                graphStr.append(adjacencyList.get(user).stream().map(User::getUserName).collect(Collectors.joining(", ")));
+                graphStr.append(
+                        adjacencyList.get(user).stream().map(User::getUserName).collect(Collectors.joining(", ")));
                 graphStr.append(System.lineSeparator());
             }
 
@@ -54,6 +55,23 @@ public class UserGraph {
             }
 
             return graphStr.toString();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Graph graph = (Graph) o;
+            return Objects.equals(adjacencyList, graph.adjacencyList);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(adjacencyList);
         }
     }
 
@@ -66,10 +84,12 @@ public class UserGraph {
     /**
      * Adds followers to the given user ("followee").
      *
-     * @param followee The user to add followers to
+     * @param followee  The user to add followers to
      * @param followers The followers to add
      */
     public void addFollowers(User followee, User... followers) {
+        Objects.requireNonNull(followee, "Followee user may not be null");
+
         if (!userGraph.adjacencyList.containsKey(followee)) {
             throw new IllegalArgumentException("No User named " + followee.getUserName() + " found in the Graph.");
         }
@@ -82,28 +102,32 @@ public class UserGraph {
     }
 
     /**
-     * Adds a new user if one by that name doesn't already exist.
-     *
-     * @param user The user to add.
-     */
-    public void addNewUser(User user) {
-        if (!userGraph.adjacencyList.containsKey(user)) {
-            this.userGraph.adjacencyList.put(user, new LinkedList<>());
-        }   // Should probably throw an exception here - although it's going to be easier to just do nothing in this case
-    }
-
-    /**
      * Retrieves a list of follwers for the given user.
      *
      * @param user The user for whom to retrieve the list.
      * @return The list of followers.
      */
     public List<User> getFollowers(User user) {
+        Objects.requireNonNull(user, "User may not be null");
+
         if (!userGraph.adjacencyList.containsKey(user)) {
             throw new IllegalArgumentException("No user named " + user.getUserName() + " found in the user graph");
         }
 
         return userGraph.adjacencyList.get(user);
+    }
+
+    /**
+     * Adds a new user if one by that name doesn't already exist.
+     *
+     * @param user The user to add.
+     */
+    public void addNewUser(User user) {
+        Objects.requireNonNull(user, "User may not be null");
+
+        if (!userGraph.adjacencyList.containsKey(user)) {
+            this.userGraph.adjacencyList.put(user, new LinkedList<>());
+        }   // Should probably throw an exception here - although it's going to be easier to just do nothing in this case
     }
 
     /**
@@ -113,7 +137,7 @@ public class UserGraph {
      * @param userName The name of the User to look for
      * @return The User object
      */
-    public User getUser (String userName) {
+    public User getUser(String userName) {
         for (User user : userGraph.adjacencyList.keySet()) {
             if (user.getUserName().equals(userName)) {
                 return user;
@@ -133,11 +157,29 @@ public class UserGraph {
     }
 
     /**
-     * Passes through to the {@link UserGraph#toString()}
+     * Passes through to the {@link UserGraph.Graph#toString()}
+     *
      * @return A String representing the graph
      */
     @Override
     public String toString() {
         return userGraph.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        UserGraph userGraph1 = (UserGraph) o;
+        return Objects.equals(userGraph, userGraph1.userGraph);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userGraph);
     }
 }
