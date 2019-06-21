@@ -3,7 +3,7 @@
 ## How to run:
 * Clone the repo to your local machine.
 * Open a terminal and navigate to the repo.
-* Build the project by running the following command: `mvn assembly:assembly`.
+* Build the project by running the following command: `mvn clean assembly:assembly`.
     * Requires maven be installed on the local machine, get the latest version from [here](https://maven.apache.org/download.cgi).
     * This should build a executable jar-with-dependencies. One has been included in the base project dir of this repo just in case.
 * To execute, run the following command: `java -jar twitter-app-1.0.0-jar-with-dependencies.jar <user.txt> <tweet.txt>`.
